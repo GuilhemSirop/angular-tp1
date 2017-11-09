@@ -1,0 +1,30 @@
+<ol class="breadcrumb">
+  <li><a title="Accueil" routerLink="/" routerLinkActive="active">Accueil</a></li>
+  <li><a title="Pizzas" routerLink="/pizzas" routerLinkActive="active">Pizzas</a></li>
+</ol>
+
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="text-center">Liste des Pizzas</h1>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Pizza</th>
+        <th>Prix</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let pizza of listPizza">
+        <td>{{pizza.name}}</td>
+        <td>{{pizza.price}} €</td>
+        <td>
+          <a class="btn btn-info btn-xs" routerLink="{{pizza._id}}">Voir</a>
+
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

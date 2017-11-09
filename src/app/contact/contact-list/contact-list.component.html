@@ -1,0 +1,61 @@
+<ol class="breadcrumb">
+  <li><a title="Accueil" routerLink="/" routerLinkActive="active">Accueil</a></li>
+  <li><a title="Contacts" routerLink="/contacts" routerLinkActive="active">Contacts</a></li>
+</ol>
+
+<div *ngIf="selectedContact">
+  Utilisateur sélectionné : {{selectedContact.name}} {{selectedContact.username}}
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Prénom</th>
+    <th>Action</th>
+    <th>Input</th>
+    <th>Fiche</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let contact of listContacts">
+    <td>{{contact.name}}</td>
+    <td>{{contact.username}}</td>
+    <td>
+      <button (click)="showCurrent(contact.id)"  type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+        Voir
+      </button>
+
+    </td>
+    <td>
+      <app-contact-info [contact]="contact" (onDelete)="onDeleteTrigger($event)"></app-contact-info>
+    </td>
+    <!-- Sans crochet = STRING, avec = objet -->
+    <!--<td> <a class="btn btn-info" routerLink="/contacts/{{contact.id}}" routerLinkActive="active">Fiche</a></td>-->
+    <td> <a class="btn btn-info" [routerLink]="'/contacts/' + contact.id" routerLinkActive="active">Fiche</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="selectedContact">{{selectedContact.name}} - {{selectedContact.username}}</div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

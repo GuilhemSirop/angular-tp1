@@ -1,0 +1,10 @@
+<div class="row" *ngIf="selectedContact">
+  <div class="col-md-8 col-md-offset-2">
+    <h1 class="text-center">FICHE CONTACT {{selectedContact.id}}</h1>
+    <h3 class="text-center">{{selectedContact.name}} - {{selectedContact.username}}</h3>
+    <p>
+      <b>Email :</b> {{selectedContact.email}}
+      <br/><b>Adresse : </b> {{selectedContact.address.street}} {{selectedContact.address.suite}}, {{selectedContact.address.city}}, {{selectedContact.address.zipcode}}
+    </p>
+  </div>
+</div>
