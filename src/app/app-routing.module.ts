@@ -5,13 +5,14 @@ import {ContactDetailComponent} from './contact/contact-detail/contact-detail.co
 import {ContactListComponent} from './contact/contact-list/contact-list.component';
 import {PizzaListComponent} from './pizza/pizza-list/pizza-list.component';
 import {PizzaDetailComponent} from './pizza/pizza-detail/pizza-detail.component';
-import {PizzaAddComponent} from './pizza/pizza-add/pizza-add.component';
+import {PizzaFormComponent} from './pizza/pizza-form/pizza-form.component';
 
 const appRoutes: Routes = [
   {path: 'contacts', component: ContactListComponent},
   {path: 'contacts/:id', component: ContactDetailComponent},
   {path: 'pizzas', component: PizzaListComponent},
-  {path: 'pizzas/add', component: PizzaAddComponent},
+  {path: 'pizzas/add', component: PizzaFormComponent},
+  {path: 'pizzas/update/:id', component: PizzaFormComponent},
   {path: 'pizzas/:id', component: PizzaDetailComponent}
 ];
 
