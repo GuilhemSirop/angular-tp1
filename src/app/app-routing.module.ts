@@ -10,6 +10,7 @@ import {PizzaFormComponent} from './pizza/pizza-form/pizza-form.component';
 const appRoutes: Routes = [
   {path: 'contacts', component: ContactListComponent},
   {path: 'contacts/:id', component: ContactDetailComponent},
+
   {path: 'pizzas', component: PizzaListComponent},
   {path: 'pizzas/add', component: PizzaFormComponent},
   {path: 'pizzas/update/:id', component: PizzaFormComponent},

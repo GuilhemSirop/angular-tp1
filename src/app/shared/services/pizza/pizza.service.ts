@@ -10,7 +10,7 @@ import {Pizza} from '../../../models/pizza';
 @Injectable()
 export class PizzaService {
 
-  private url: string = 'https://pizza-delaunay1-simsimz.c9users.io/pizzas';
+  private url: string = 'https://nodejs-api-coeurdelion.c9users.io/pizzas';
   private socket = io.connect(this.url);
 
   constructor(private http: HttpClient) {
