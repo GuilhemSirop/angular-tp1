@@ -1,0 +1,57 @@
+<ol class="breadcrumb">
+  <li><a title="Accueil" routerLink="/" routerLinkActive="active">Accueil</a></li>
+  <li><a title="Ingredients" routerLink="/ingredients" routerLinkActive="active">Ingredients</a></li>
+</ol>
+
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="text-center">
+      Liste des Ingredients
+      <a class="btn btn-success" title="Ingredients" routerLink="/ingredients/add" routerLinkActive="active"><i class="fa fa-plus"></i></a>
+    </h1>
+
+    <ng-container *ngIf="result">
+      <div class="alert alert-dismissable" [ngClass]="{
+        'alert-success': result.success,
+        'alert-danger': !result.success
+      }" role="alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{result.message}}
+      </div>
+    </ng-container>
+
+
+    <div class="row" *ngIf="listIngredient && listIngredient.length > 0;else empty_ingredients">
+      <!-- Card Projects -->
+      <div *ngFor="let ingredient of listIngredient" class="col-md-6 col-md-offset-3" >
+        <div class="card">
+          <div class="card-image">
+            <img class="img-responsive" src="https://u.tfstatic.com/restaurant_photos/877/274877/169/612/playoff-ingredient-pub-parma-a9f88.jpg">
+            <span class="card-title">{{ingredient.name}}</span>
+          </div>
+
+          <div class="card-content">
+            <p>{{ingredient.description}}</p>
+            <p><b>{{ingredient.price}} €</b></p>
+          </div>
+
+          <div class="card-action">
+            <a routerLink="{{ingredient._id}}"><i class="fa fa-eye"></i> Voir</a>
+            <a routerLink="update/{{ingredient._id}}"><i class="fa fa-cog"></i> Modifier</a>
+            <a class="text-danger"  (click)="deleteIngredient(ingredient._id)"><i class="fa fa-trash"></i> Supprimer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #empty_ingredients>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <p><i>Il n'y a actuellement aucun ingredient enregistrée...</i></p>
+        </div>
+      </div>
+    </ng-template>
+
+  </div>
+</div>
+

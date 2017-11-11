@@ -1,20 +1,20 @@
 
 <ol class="breadcrumb">
   <li><a title="Accueil" routerLink="/" routerLinkActive="active">Accueil</a></li>
-  <li><a title="Pizzas" routerLink="/pizzas" routerLinkActive="active">Pizzas</a></li>
+  <li><a title="Ingredients" routerLink="/ingredients" routerLinkActive="active">Ingredients</a></li>
   <li><a title="Ajouter" class="active">Fiche</a></li>
 </ol>
 
-<div *ngIf="selectedPizza;else loading" class="row">
+<div *ngIf="selectedIngredient;else loading" class="row">
   <div class="col-md-12">
 
-    <h1 class="text-center">{{ selectedPizza.name }}</h1>
+    <h1 class="text-center">{{ selectedIngredient.name }}</h1>
 
     <p>
-      <b>Nom :</b> {{ selectedPizza.name }}
-      <br/><b>Description: </b> {{ selectedPizza.description }}
-      <br/><b>Prix: </b> {{ selectedPizza.price }} €
-      <br/><b>Date d'ajout: </b> {{ selectedPizza.created_at }}
+      <b>Nom :</b> {{ selectedIngredient.name }}
+      <br/><b>Description: </b> {{ selectedIngredient.description }}
+      <br/><b>Prix: </b> {{ selectedIngredient.price }} €
+      <br/><b>Date d'ajout: </b> {{ selectedIngredient.created_at }}
     </p>
 
   </div>
