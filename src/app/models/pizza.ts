@@ -1,4 +1,4 @@
-import { Ingredient } from './ingedient';
+import { Ingredient } from './ingredient';
 
 export class Pizza {
   _id: number;
