@@ -6,4 +6,5 @@ export class Pizza {
   price: number;
   description: string;
   ingredients: Ingredient[];
+
 }
