@@ -21,6 +21,7 @@ export class PizzaDetailComponent implements OnInit {
     const id = this.activatedRoute.snapshot.params['id'];
     this.pizzaService.getById(id).subscribe(data => {
       this.selectedPizza = data;
+      console.log(this.selectedPizza);
     });
 
   }

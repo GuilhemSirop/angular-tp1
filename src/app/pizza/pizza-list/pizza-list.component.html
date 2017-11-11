@@ -31,12 +31,22 @@
           </div>
 
           <div class="card-content">
-            <p>{{pizza.description}}</p>
-            <p><b>{{pizza.price}} €</b></p>
+            <div class="row">
+              <div class="col-md-6">
+                <p>{{pizza.description}}</p>
+                <p><b>{{pizza.price}} €</b></p>
+              </div>
+              <div class="col-md-6">
+                <ul *ngIf="pizza.ingredients && pizza.ingredients.length > 0">
+                  <li *ngFor="let ingredient of pizza.ingredients">{{ingredient.name}}</li>
+                </ul>
+              </div>
+            </div>
+
           </div>
 
-          <div class="card-action">
-            <a routerLink="{{pizza._id}}"><i class="fa fa-eye"></i> Voir</a>
+          <div class="card-action text-center">
+            <a class="text-info" routerLink="{{pizza._id}}"><i class="fa fa-eye"></i> Voir</a>
             <a routerLink="update/{{pizza._id}}"><i class="fa fa-cog"></i> Modifier</a>
             <a class="text-danger"  (click)="deletePizza(pizza._id)"><i class="fa fa-trash"></i> Supprimer</a>
           </div>

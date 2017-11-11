@@ -17,6 +17,11 @@
       <br/><b>Date d'ajout: </b> {{ selectedPizza.created_at }}
     </p>
 
+    <p><b>Ingredients</b></p>
+
+    <span class="btn btn-primary" *ngFor="let ingredient of selectedPizza.ingredients">
+      {{ingredient.name}}
+    </span>
   </div>
 
 
