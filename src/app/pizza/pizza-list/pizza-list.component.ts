@@ -21,6 +21,7 @@ export class PizzaListComponent implements OnInit {
 
     this.pizzaService.get().subscribe(data => {
       this.listPizza = data;
+      console.log(this.listPizza);
     });
   }
 

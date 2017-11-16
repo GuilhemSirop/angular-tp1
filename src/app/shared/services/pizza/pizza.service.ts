@@ -25,6 +25,7 @@ export class PizzaService {
   }
 
   create(pizza: Pizza): Observable<any> {
+    console.log(pizza);
     this.onAddContact(pizza);
     return this.http.post(this.url, pizza);
   }

@@ -23,6 +23,8 @@ export class PizzaFormComponent implements OnInit {
   listIngredient: any;
   selectedIngredients: any;
 
+  base64textString: string;
+
   private form: FormGroup;
 
   constructor(private pizzaService: PizzaService,
@@ -32,6 +34,7 @@ export class PizzaFormComponent implements OnInit {
 
     this.actual_form = this.activatedRoute.snapshot.url[1].path;
     this.selectedIngredients = [];
+    this.base64textString = '';
   }
 
   ngOnInit() {
@@ -50,6 +53,7 @@ export class PizzaFormComponent implements OnInit {
     if (this.actual_form === 'add') {
       this.title_form = 'Ajouter';
       this.form = new FormGroup({
+        img: new FormControl('', Validators.required),
         name: new FormControl('', Validators.required),
         description: new FormControl('', Validators.required),
         price: new FormControl('', Validators.required),
@@ -63,12 +67,12 @@ export class PizzaFormComponent implements OnInit {
       this.pizzaService.getById(this.id_to_update).subscribe(
         data => {
           this.selectedPizza = data;
-          console.log(this.selectedPizza);
           this.selectedIngredients = ingredientToArrayIds(data);
-          console.log(this.selectedIngredients);
+
           // On initialise le form
           this.form = new FormGroup({
             id_to_update: new FormControl(this.id_to_update, Validators.required),
+            img: new FormControl(this.base64textString, Validators.required),
             name: new FormControl(this.selectedPizza.name, Validators.required),
             description: new FormControl(this.selectedPizza.description, Validators.required),
             price: new FormControl(this.selectedPizza.price, Validators.required),
@@ -83,9 +87,31 @@ export class PizzaFormComponent implements OnInit {
     }
   }
 
+  /* *** Evenement onChange Image Pizza *** */
+  handleFileSelect(evt) {
+    const files = evt.target.files;
+    const file = files[0];
+
+
+    if (files && file) {
+      const reader = new FileReader();
+
+      reader.onload = this._handleReaderLoaded.bind(this);
+
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.target.result;
+    this.base64textString = btoa(binaryString);
+    this.form.patchValue({img: this.base64textString});
+  }
+
   onSubmit() {
     // SI ON AJOUTE
     if (this.actual_form === 'add') {
+      this.form.value.img = this.base64textString;
       this.pizzaService.create(this.form.value).subscribe(
         () => this.result = {
           success: true,
@@ -98,6 +124,10 @@ export class PizzaFormComponent implements OnInit {
       );
     } else {
       // SI ON UPDATE
+      // On vérifie si l'image est différente
+      if (this.form.value.img === this.base64textString) {
+        delete this.form.value.img;
+      }
       this.pizzaService.update(this.id_to_update, this.form.value).subscribe(
         () => this.result = {
           success: true,

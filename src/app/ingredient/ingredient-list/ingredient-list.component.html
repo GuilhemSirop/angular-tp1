@@ -23,7 +23,7 @@
 
     <div class="row" *ngIf="listIngredient && listIngredient.length > 0;else empty_ingredients">
       <!-- Card Projects -->
-      <div *ngFor="let ingredient of listIngredient" class="col-md-6 col-md-offset-3" >
+      <div *ngFor="let ingredient of listIngredient; let i = index" class="col-md-6 col-md-offset-3" >
         <div class="card">
           <div class="card-image">
             <img class="img-responsive" src="https://u.tfstatic.com/restaurant_photos/877/274877/169/612/playoff-ingredient-pub-parma-a9f88.jpg">
@@ -38,7 +38,7 @@
           <div class="card-action">
             <a routerLink="{{ingredient._id}}"><i class="fa fa-eye"></i> Voir</a>
             <a routerLink="update/{{ingredient._id}}"><i class="fa fa-cog"></i> Modifier</a>
-            <a class="text-danger"  (click)="deleteIngredient(ingredient._id)"><i class="fa fa-trash"></i> Supprimer</a>
+            <a class="text-danger"  (click)="deleteIngredient(ingredient)"><i class="fa fa-trash"></i> Supprimer</a>
           </div>
         </div>
       </div>

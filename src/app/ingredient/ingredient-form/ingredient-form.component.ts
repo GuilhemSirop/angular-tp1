@@ -32,7 +32,6 @@ export class IngredientFormComponent implements OnInit {
         description: new FormControl('', Validators.required),
         price: new FormControl('', Validators.required)
       });
-
     } else {
       // On récupère l'objet courant
       this.id_to_update = this.activatedRoute.snapshot.params['id'];
@@ -62,11 +61,11 @@ export class IngredientFormComponent implements OnInit {
       this.ingredientService.create(this.form.value).subscribe(
         () => this.result = {
           success: true,
-          message: 'La pizza a été enregistrée.'
+          message: `L'ingredient a été enregistrée.`
         },
         () => this.result = {
           success: false,
-          message: 'Un problème a été rencontré durant l\'enregistrement de la pizza.'
+          message: `Un problème a été rencontré durant l'enregistrement de l'ingredient.`
         }
       );
     } else {
@@ -74,11 +73,11 @@ export class IngredientFormComponent implements OnInit {
       this.ingredientService.update(this.id_to_update, this.form.value).subscribe(
         () => this.result = {
           success: true,
-          message: 'La pizza a été enregistrée.'
+          message: `L'ingredient a été enregistrée.`
         },
         () => this.result = {
           success: false,
-          message: 'Un problème a été rencontré durant l\'enregistrement de la pizza.'
+          message: `Un problème a été rencontré durant l'enregistrement de l'ingredient.`
         }
       );
     }

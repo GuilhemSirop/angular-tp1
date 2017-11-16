@@ -33,6 +33,7 @@ export class IngredientService {
   }
 
   deleteById(id): Observable<any> {
+    // AVANT on supprimer mais cela n'est pas l'idéal puisque sinon on devrait supprimer pour chaque pizza qui possède cet ingredient, l'ingrédient
     return this.http.delete(this.url + '/' + id);
   }
 

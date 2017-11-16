@@ -21,6 +21,12 @@
 
     <input *ngIf="id_to_update" type="hidden" formControlName="id_to_update" />
     <p>
+      <label for="filePicker">Choose or drag a file:</label><br>
+      <input type="file" id="filePicker" (change)="handleFileSelect($event)">
+
+    <textarea id="base64textarea" class="hidden" formControlName="img" placeholder="Base64 will appear here" cols="50" rows="15">{{base64textString}}</textarea>
+    </p>
+    <p>
       <label>Nom:</label>
       <input type="text" formControlName="name" class="form-control">
     </p>
@@ -33,7 +39,9 @@
       <input type="number" formControlName="price" class="form-control">
     </p>
 
+
     <p>
+
       <label>Ingrédients</label>
       <span *ngFor="let ingredient of listIngredient" >
         <button type="button"  (click)="toggleIngredient(ingredient._id)"

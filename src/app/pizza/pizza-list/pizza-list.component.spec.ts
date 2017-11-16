@@ -1,25 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {TestBed, inject} from '@angular/core/testing';
 import { PizzaListComponent } from './pizza-list.component';
+import { PizzaService } from '../../shared/services/pizza/pizza.service';
 
-describe('PizzaListComponent', () => {
-  let component: PizzaListComponent;
-  let fixture: ComponentFixture<PizzaListComponent>;
+describe('Test AppComponent', () => {
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PizzaListComponent ]
-    })
-    .compileComponents();
-  }));
+  let fixture;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [PizzaListComponent],
+      providers: [PizzaService]
+    });
     fixture = TestBed.createComponent(PizzaListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should return +1 on upVote', inject([PizzaService], (pizzaService: PizzaService) => {
+    fixture.componentInstance.voteUp();
+    fixture.componentInstance.voteUp();
+    expect(fixture.componentInstance.vote).toBe(2);
+  }));
+
+  it('should return 0 on downVote', () => {
+    fixture.componentInstance.voteDown();
+    expect(fixture.componentInstance.vote).toBe(0);
   });
+
 });
