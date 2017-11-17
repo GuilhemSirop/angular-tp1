@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {Validators, FormControl, FormGroup} from '@angular/forms';
+import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 
 import {PizzaService} from '../../shared/services/pizza/pizza.service';
 import {IngredientService} from '../../shared/services/ingredient/ingredient.service';
@@ -13,6 +14,7 @@ import {ingredientToArrayIds} from '../../models/pizza';
   styleUrls: ['./pizza-form.component.css']
 })
 export class PizzaFormComponent implements OnInit {
+  isLoading = false;
   result: any;
   actual_form: string;
   title_form: string;
@@ -27,14 +29,16 @@ export class PizzaFormComponent implements OnInit {
 
   private form: FormGroup;
 
-  constructor(private pizzaService: PizzaService,
+  constructor(public toaster: ToastsManager,
+              public vcr: ViewContainerRef,
+              private pizzaService: PizzaService,
               private ingredientService: IngredientService,
               private activatedRoute: ActivatedRoute,
               private router: Router) {
 
+    this.toaster.setRootViewContainerRef(vcr);
     this.actual_form = this.activatedRoute.snapshot.url[1].path;
     this.selectedIngredients = [];
-    this.base64textString = '';
   }
 
   ngOnInit() {
@@ -51,6 +55,7 @@ export class PizzaFormComponent implements OnInit {
 
     // SI ON AJOUTE
     if (this.actual_form === 'add') {
+
       this.title_form = 'Ajouter';
       this.form = new FormGroup({
         img: new FormControl('', Validators.required),
@@ -61,18 +66,20 @@ export class PizzaFormComponent implements OnInit {
       });
 
     } else {
+
       this.title_form = 'Modifier';
       // On récupère l'objet courant
       this.id_to_update = this.activatedRoute.snapshot.params['id'];
+      // ON récupère la pizza
       this.pizzaService.getById(this.id_to_update).subscribe(
         data => {
           this.selectedPizza = data;
           this.selectedIngredients = ingredientToArrayIds(data);
-
+          this.base64textString = this.selectedPizza.img;
           // On initialise le form
           this.form = new FormGroup({
             id_to_update: new FormControl(this.id_to_update, Validators.required),
-            img: new FormControl(this.base64textString, Validators.required),
+            img: new FormControl(this.base64textString),
             name: new FormControl(this.selectedPizza.name, Validators.required),
             description: new FormControl(this.selectedPizza.description, Validators.required),
             price: new FormControl(this.selectedPizza.price, Validators.required),
@@ -85,6 +92,7 @@ export class PizzaFormComponent implements OnInit {
         }
       );
     }
+
   }
 
   /* *** Evenement onChange Image Pizza *** */
@@ -92,12 +100,9 @@ export class PizzaFormComponent implements OnInit {
     const files = evt.target.files;
     const file = files[0];
 
-
     if (files && file) {
       const reader = new FileReader();
-
       reader.onload = this._handleReaderLoaded.bind(this);
-
       reader.readAsBinaryString(file);
     }
   }
@@ -109,34 +114,30 @@ export class PizzaFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     // SI ON AJOUTE
     if (this.actual_form === 'add') {
       this.form.value.img = this.base64textString;
       this.pizzaService.create(this.form.value).subscribe(
-        () => this.result = {
-          success: true,
-          message: 'La pizza a été enregistrée.'
+        (pizza) => {
+          console.log(pizza);
+          this.form.reset();
+          this.toaster.success('La pizza a été enregistrée.', 'Enregistrée !');
+          // On emit le socket
+          this.pizzaService.onAddPizza(pizza);
         },
-        () => this.result = {
-          success: false,
-          message: 'Un problème a été rencontré durant l\'enregistrement de la pizza.'
-        }
+        () => this.toaster.error(`Un problème est survenu lors de l'ajout de la pizza.`, 'Oups !'),
+        () => this.isLoading = false,
       );
     } else {
       // SI ON UPDATE
-      // On vérifie si l'image est différente
-      if (this.form.value.img === this.base64textString) {
-        delete this.form.value.img;
-      }
       this.pizzaService.update(this.id_to_update, this.form.value).subscribe(
-        () => this.result = {
-          success: true,
-          message: 'La pizza a été enregistrée.'
+        () => {
+          this.selectedPizza = this.form.value;
+          this.toaster.success('La pizza a été enregistrée.', 'Enregistrée !');
         },
-        () => this.result = {
-          success: false,
-          message: 'Un problème a été rencontré durant l\'enregistrement de la pizza.'
-        }
+        () => this.toaster.error(`Un problème est survenu lors de a mise à jour de la pizza.`, 'Oups !'),
+        () => this.isLoading = false,
       );
     }
 

@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 
 import {IngredientService} from '../../shared/services/ingredient/ingredient.service';
 
@@ -12,7 +13,11 @@ export class IngredientListComponent implements OnInit {
   listIngredient = [];
   result: any;
 
-  constructor(private ingredientService: IngredientService) {
+  constructor(public toaster: ToastsManager,
+              public vcr: ViewContainerRef,
+              private ingredientService: IngredientService) {
+
+    this.toaster.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
@@ -28,32 +33,11 @@ export class IngredientListComponent implements OnInit {
     this.ingredientService.update(ingredient._id, ingredient).subscribe(
       () => {
         this.listIngredient = this.listIngredient.filter(aIngredient => aIngredient._id !== ingredient._id);
-        console.log(this.listIngredient);
-        this.result = {
-          success: true,
-          message: `L'ingrédient a été supprimé.`
-        };
+        this.toaster.success(`L'ingredient a été supprimé.`, 'Supprimé !');
       },
-      () => this.result = {
-        success: false,
-        message: `Un problème a été rencontré durant la suppression de l'ingredient.`
-      }
+      () => this.toaster.error(`Un problème a été rencontré durant la suppression de l'ingredient.`, 'Oups !')
     );
 
-    /* AVANT on supprimer mais cela n'est pas l'idéal puisque sinon on devrait supprimer pour chaque pizza qui possède cet ingredient, l'ingrédient
-    this.ingredientService.deleteById(id).subscribe(
-      () => {
-        this.listIngredient = this.listIngredient.filter(aIngredient => aIngredient._id !== id);
-        this.result = {
-          success: true,
-          message: `L'ingredient a été supprimée.`
-        };
-      },
-      () => this.result = {
-        success: false,
-        message: `Un problème a été rencontré durant la suppression de l'ingredient.`
-      }
-    ); */
 
   }
 

@@ -5,15 +5,19 @@ import {Observable} from 'rxjs/Observable';
 
 import * as io from 'socket.io-client';
 
-import {Pizza} from '../../../models/pizza';
+import { Pizza } from '../../../models/pizza';
 
 @Injectable()
 export class PizzaService {
 
-  private url: string = 'https://nodejs-api-coeurdelion.c9users.io/pizzas';
-  private socket = io.connect(this.url);
+  private baseUrl = 'https://nodejs-api-coeurdelion.c9users.io';
+  private socket = io.connect(this.baseUrl);
+
+  private url: string;
 
   constructor(private http: HttpClient) {
+    this.url = this.baseUrl + '/pizzas';
+    console.log(this.socket);
   }
 
   get(): Observable<any> {
@@ -25,8 +29,6 @@ export class PizzaService {
   }
 
   create(pizza: Pizza): Observable<any> {
-    console.log(pizza);
-    this.onAddContact(pizza);
     return this.http.post(this.url, pizza);
   }
 
@@ -39,17 +41,28 @@ export class PizzaService {
   }
 
   /* *** SOCKET *** */
-  onAddContact(contact) {
-    console.log('socket ok');
-    this.socket.emit('on-create-pizza', contact);
+  onAddPizza(pizza) {
+    this.socket.emit('on-create-pizza', pizza);
   }
 
   listenOnAddContact() {
-
-    const observable = new Observable(observer => {
-      console.log('Tentative !');
+    console.log('ecoute...');
+    let observable = new Observable(observer => {
         this.socket.on('update-list-pizzas', (data) => {
-          console.log('yeah !');
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      }
+    );
+    return observable;
+  }
+
+  listenOnToast() {
+    console.log('ecoute TOAST...');
+    let observable = new Observable(observer => {
+        this.socket.on('toast', (data) => {
           observer.next(data);
         });
         return () => {

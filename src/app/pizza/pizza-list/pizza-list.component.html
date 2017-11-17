@@ -10,17 +10,6 @@
       <a class="btn btn-success" title="Pizzas" routerLink="/pizzas/add" routerLinkActive="active"><i class="fa fa-plus"></i></a>
     </h1>
 
-    <ng-container *ngIf="result">
-      <div class="alert alert-dismissable" [ngClass]="{
-        'alert-success': result.success,
-        'alert-danger': !result.success
-      }" role="alert">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        {{result.message}}
-      </div>
-    </ng-container>
-
-
     <div class="row" *ngIf="listPizza && listPizza.length > 0;else empty_pizzas">
       <!-- Card Projects -->
       <div *ngFor="let pizza of listPizza" class="col-md-6 col-md-offset-3" >
@@ -33,7 +22,7 @@
           <div class="card-content">
             <div class="row">
               <div class="col-md-6">
-                <p>{{pizza.description}} <br/>{{pizza.name}}</p>
+                <p>{{pizza.description}}</p>
                 <p><b>{{pizza.price}} €</b></p>
               </div>
               <div class="col-md-6">
