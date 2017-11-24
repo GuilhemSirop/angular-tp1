@@ -10,7 +10,7 @@ import {Ingredient} from '../../../models/ingredient';
 @Injectable()
 export class IngredientService {
 
-  private url: string = 'https://nodejs-api-coeurdelion.c9users.io/ingredients';
+  private url: string = 'https://nodejs-api-cloned-coeurdelion.c9users.io/ingredients';
   private socket = io.connect(this.url);
 
   constructor(private http: HttpClient) {

@@ -122,9 +122,6 @@ export class PizzaFormComponent implements OnInit {
         (pizza) => {
           console.log(pizza);
           this.form.reset();
-          this.toaster.success('La pizza a été enregistrée.', 'Enregistrée !');
-          // On emit le socket
-          this.pizzaService.onAddPizza(pizza);
         },
         () => this.toaster.error(`Un problème est survenu lors de l'ajout de la pizza.`, 'Oups !'),
         () => this.isLoading = false,

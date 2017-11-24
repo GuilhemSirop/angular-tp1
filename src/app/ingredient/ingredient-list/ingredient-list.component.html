@@ -1,14 +1,14 @@
 <ol class="breadcrumb">
   <li><a title="Accueil" routerLink="/" routerLinkActive="active">Accueil</a></li>
   <li><a title="Ingredients" routerLink="/ingredients" routerLinkActive="active">Ingredients</a></li>
+  <li class="pull-right">
+    <a class="btn btn-success btn-xs" title="Ingredients" routerLink="/ingredients/add" routerLinkActive="active"><i class="fa fa-plus"></i> Ajouter</a>
+  </li>
+
 </ol>
 
 <div class="row">
   <div class="col-md-12">
-    <h1 class="text-center">
-      Liste des Ingredients
-      <a class="btn btn-success" title="Ingredients" routerLink="/ingredients/add" routerLinkActive="active"><i class="fa fa-plus"></i></a>
-    </h1>
 
     <ng-container *ngIf="result">
       <div class="alert alert-dismissable" [ngClass]="{
@@ -23,23 +23,26 @@
 
     <div class="row" *ngIf="listIngredient && listIngredient.length > 0;else empty_ingredients">
       <!-- Card Projects -->
-      <div *ngFor="let ingredient of listIngredient; let i = index" class="col-md-6 col-md-offset-3" >
+      <div *ngFor="let ingredient of listIngredient; let i = index" class="col-md-3" >
         <div class="card">
-          <div class="card-image">
-            <img class="img-responsive" src="https://u.tfstatic.com/restaurant_photos/877/274877/169/612/playoff-ingredient-pub-parma-a9f88.jpg">
-            <span class="card-title">{{ingredient.name}}</span>
+          <div class="card-title">
+            <h3 class="text-center">{{ingredient.name}}</h3>
           </div>
-
           <div class="card-content">
-            <p>{{ingredient.description}}</p>
-            <p><b>{{ingredient.price}} €</b></p>
+
+            <p><b>Description : </b>
+              <br/>{{ingredient.description}}
+            </p>
+            <p><b>Prix : </b>{{ingredient.price}} €</p>
+            <p><b>Poids : </b>{{ingredient.weight}}</p>
           </div>
 
-          <div class="card-action">
-            <a routerLink="{{ingredient._id}}"><i class="fa fa-eye"></i> Voir</a>
-            <a routerLink="update/{{ingredient._id}}"><i class="fa fa-cog"></i> Modifier</a>
-            <a class="text-danger"  (click)="deleteIngredient(ingredient)"><i class="fa fa-trash"></i> Supprimer</a>
+          <div class="card-action text-center">
+            <a class="text-info" routerLink="{{ingredient._id}}"><i class="fa fa-eye"></i></a>
+            <a routerLink="update/{{ingredient._id}}"><i class="fa fa-cog"></i></a>
+            <a class="text-danger"  (click)="deleteIngredient(ingredient)"><i class="fa fa-trash"></i></a>
           </div>
+
         </div>
       </div>
     </div>

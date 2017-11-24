@@ -30,7 +30,8 @@ export class IngredientFormComponent implements OnInit {
       this.form = new FormGroup({
         name: new FormControl('', Validators.required),
         description: new FormControl('', Validators.required),
-        price: new FormControl('', Validators.required)
+        price: new FormControl('', Validators.required),
+        weight: new FormControl('', Validators.required)
       });
     } else {
       // On récupère l'objet courant
@@ -44,7 +45,8 @@ export class IngredientFormComponent implements OnInit {
             id_to_update: new FormControl(this.id_to_update, Validators.required),
             name: new FormControl(this.selectedPizza.name, Validators.required),
             description: new FormControl(this.selectedPizza.description, Validators.required),
-            price: new FormControl(this.selectedPizza.price, Validators.required)
+            price: new FormControl(this.selectedPizza.price, Validators.required),
+            weight: new FormControl(this.selectedPizza.weight, Validators.required)
           });
         },
         () => {

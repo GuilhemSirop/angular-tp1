@@ -10,14 +10,13 @@ import { Pizza } from '../../../models/pizza';
 @Injectable()
 export class PizzaService {
 
-  private baseUrl = 'https://nodejs-api-coeurdelion.c9users.io';
-  private socket = io.connect(this.baseUrl);
+  private baseUrl = 'https://nodejs-api-cloned-coeurdelion.c9users.io';
+  private socket  = io.connect(this.baseUrl);
 
   private url: string;
 
   constructor(private http: HttpClient) {
     this.url = this.baseUrl + '/pizzas';
-    console.log(this.socket);
   }
 
   get(): Observable<any> {
@@ -41,12 +40,8 @@ export class PizzaService {
   }
 
   /* *** SOCKET *** */
-  onAddPizza(pizza) {
-    this.socket.emit('on-create-pizza', pizza);
-  }
-
   listenOnAddContact() {
-    console.log('ecoute...');
+    /* Evenement on add-pizza */
     let observable = new Observable(observer => {
         this.socket.on('update-list-pizzas', (data) => {
           observer.next(data);
@@ -62,7 +57,8 @@ export class PizzaService {
   listenOnToast() {
     console.log('ecoute TOAST...');
     let observable = new Observable(observer => {
-        this.socket.on('toast', (data) => {
+        this.socket.on('[Toast][new]', (data) => {
+          console.log('reçu');
           observer.next(data);
         });
         return () => {
