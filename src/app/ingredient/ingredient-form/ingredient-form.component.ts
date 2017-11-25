@@ -13,6 +13,7 @@ export class IngredientFormComponent implements OnInit {
   actual_form: string;
   id_to_update: number;
   selectedPizza: any;
+  title_form: string;
 
   private form: FormGroup;
 
@@ -27,6 +28,7 @@ export class IngredientFormComponent implements OnInit {
 
     // SI ON AJOUTE
     if (this.actual_form === 'add') {
+      this.title_form = 'Ajouter';
       this.form = new FormGroup({
         name: new FormControl('', Validators.required),
         description: new FormControl('', Validators.required),
@@ -34,6 +36,7 @@ export class IngredientFormComponent implements OnInit {
         weight: new FormControl('', Validators.required)
       });
     } else {
+      this.title_form = 'Modifier';
       // On récupère l'objet courant
       this.id_to_update = this.activatedRoute.snapshot.params['id'];
       this.ingredientService.getById(this.id_to_update).subscribe(

@@ -13,6 +13,7 @@ import {IngredientDetailComponent} from './ingredient/ingredient-detail/ingredie
 import {IngredientFormComponent} from './ingredient/ingredient-form/ingredient-form.component';
 
 const appRoutes: Routes = [
+  {path: '', component: PizzaListComponent},
   {path: 'contacts', component: ContactListComponent},
   {path: 'contacts/:id', component: ContactDetailComponent},
 

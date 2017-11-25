@@ -10,10 +10,13 @@ import {Ingredient} from '../../../models/ingredient';
 @Injectable()
 export class IngredientService {
 
-  private url: string = 'https://nodejs-api-cloned-coeurdelion.c9users.io/ingredients';
-  private socket = io.connect(this.url);
+  private baseUrl = 'https://nodejs-api-cloned-coeurdelion.c9users.io';
+  private socket  = io.connect(this.baseUrl);
+
+  private url: string;
 
   constructor(private http: HttpClient) {
+    this.url = this.baseUrl + '/ingredients';
   }
 
   get(): Observable<any> {
@@ -35,6 +38,55 @@ export class IngredientService {
   deleteById(id): Observable<any> {
     // AVANT on supprimer mais cela n'est pas l'idéal puisque sinon on devrait supprimer pour chaque pizza qui possède cet ingredient, l'ingrédient
     return this.http.delete(this.url + '/' + id);
+  }
+
+
+  /* *** SOCKET *** */
+  listenIngredientPost() {
+    /* Evenement on add-pizza */
+    console.log('Listen SOCKET Ingredient POST');
+    let observable = new Observable(observer => {
+        this.socket.on('[Ingredient][post]', (data) => {
+          console.log('caca');
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      }
+    );
+    return observable;
+  }
+
+  listenIngredientPut() {
+    console.log('Listen SOCKET Ingredient PUT');
+    /* Evenement on add-pizza */
+    let observable = new Observable(observer => {
+        this.socket.on('[Ingredient][put]', (data) => {
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      }
+    );
+    return observable;
+  }
+
+  listenIngredientDelete() {
+    console.log('Listen SOCKET Ingredient DELETE');
+    /* Evenement on add-pizza */
+    let observable = new Observable(observer => {
+        this.socket.on('[Ingredient][delete]', (data) => {
+          console.log('coucou');
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      }
+    );
+    return observable;
   }
 
 

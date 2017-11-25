@@ -40,10 +40,38 @@ export class PizzaService {
   }
 
   /* *** SOCKET *** */
-  listenOnAddContact() {
+  listenPizzaPost() {
     /* Evenement on add-pizza */
     let observable = new Observable(observer => {
-        this.socket.on('update-list-pizzas', (data) => {
+        this.socket.on('[Pizza][post]', (data) => {
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      }
+    );
+    return observable;
+  }
+
+  listenPizzaPut() {
+    /* Evenement on add-pizza */
+    let observable = new Observable(observer => {
+        this.socket.on('[Pizza][put]', (data) => {
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      }
+    );
+    return observable;
+  }
+
+  listenPizzaDelete() {
+    /* Evenement on add-pizza */
+    let observable = new Observable(observer => {
+        this.socket.on('[Pizza][delete]', (data) => {
           observer.next(data);
         });
         return () => {

@@ -2,11 +2,11 @@
 <ol class="breadcrumb">
   <li><a title="Accueil" routerLink="/" routerLinkActive="active">Accueil</a></li>
   <li><a title="INgredients" routerLink="/ingredients" routerLinkActive="active">Ingredients</a></li>
-  <li class="active"><a title="Ajouter">Ajouter</a></li>
+  <li class="active"><a title="{{title_form}}">{{title_form}}</a></li>
 </ol>
 
 
-<h1 class="text-center">Ajouter un Ingredient</h1>
+<h1 class="text-center">{{title_form}} un Ingredient</h1>
 
 <ng-container *ngIf="result">
   <div class="alert alert-dismissable" [ngClass]="{
